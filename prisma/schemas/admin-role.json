@@ -1,0 +1,42 @@
+{
+  "uid": "admin/roles",
+  "layouts": {
+    "displayName": "Admin Role",
+    "icon": "",
+    "searchable": false,
+    "creatable": true,
+    "viewable": true,
+    "list": [
+      { "key": "name", "dataIndex": "name", "title": "Name" },
+      { "key": "code", "dataIndex": "code", "title": "Code" },
+      { "key": "description", "dataIndex": "description", "title": "Description" },
+      { "key": "createdAt", "dataIndex": "createdAt", "title": "Created At", "note": "render-date", "align": "center" }
+    ],
+    "edit": [
+      [
+        { "label": "Name", "placeholder": "Name", "name": "name", "size": 6, "type": "string", "required": true },
+        { "label": "Code", "placeholder": "Code", "name": "code", "size": 6, "type": "uid", "targetField": "name" }
+      ],
+      [{ "label": "Description", "placeholder": "Description", "name": "description", "size": 12, "type": "string" }],
+      [
+        {
+          "label": "Permissions",
+          "placeholder": "",
+          "name": "permissions",
+          "size": 12,
+          "type": "table",
+          "columns": [
+            { "key": "collection", "dataIndex": "collection", "title": "Collection" },
+            { "key": "create", "dataIndex": "create", "title": "Create", "align": "center" },
+            { "key": "read", "dataIndex": "read", "title": "Read", "align": "center" },
+            { "key": "update", "dataIndex": "update", "title": "Update", "align": "center" },
+            { "key": "delete", "dataIndex": "delete", "title": "Delete", "align": "center" }
+          ]
+        }
+      ]
+    ],
+    "defaultValue": {
+      "permissions": []
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "uid": "tracking",
+  "layouts": {
+    "displayName": "Sites Tracking",
+    "icon": "M3,22V8H7V22H3M10,22V2H14V22H10M17,22V14H21V22H17Z",
+    "creatable": false,
+    "editable": false,
+    "viewable": true,
+    "filterable": [
+      [
+        { "label": "Email", "placeholder": "Email", "name": "email", "size": 6, "type": "string" },
+        { "label": "Created At", "name": "createdAt", "size": 6, "type": "date" }
+      ]
+    ],
+    "list": [
+      { "key": "picture", "dataIndex": "picture", "title": "Picture", "align": "center", "note": "render-img" },
+      { "key": "name", "dataIndex": "name", "title": "Name", "align": "left" },
+      { "key": "email", "dataIndex": "email", "title": "Email", "align": "left" },
+      { "key": "createdAt", "dataIndex": "createdAt", "title": "Created At", "align": "center", "note": "render-date" }
+    ],
+    "edit": [
+      [
+        { "label": "Email", "placeholder": "Email", "name": "email", "size": 6, "type": "string", "disabled": true },
+        { "label": "Name", "name": "name", "size": 6, "type": "string", "disabled": true }
+      ],
+      [
+        { "label": "Max Sites", "name": "maxSites", "size": 6, "type": "string", "disabled": true },
+        { "label": "Max Quotas (Per day)", "name": "maxQuotas", "size": 6, "type": "string", "disabled": true }
+      ],
+      [
+        { "label": "Total Subscriptions", "name": "totalSubscriptions", "size": 6, "type": "string", "disabled": true },
+        { "label": "Created At", "name": "createdAt", "size": 6, "type": "string", "disabled": true }
+      ]
+    ]
+  }
+}

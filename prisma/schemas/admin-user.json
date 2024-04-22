@@ -1,0 +1,53 @@
+{
+  "uid": "admin/users",
+  "layouts": {
+    "displayName": "Admin User",
+    "icon": "M10,5V10H9V5H5V13H9V12H10V17H9V14H5V19H12V17H13V19H19V17H21V21H3V3H21V15H19V10H13V15H12V9H19V5H10Z",
+    "searchable": false,
+    "creatable": true,
+    "viewable": true,
+    "list": [
+      { "key": "username", "dataIndex": "username", "title": "Username" },
+      { "key": "firstName", "dataIndex": "firstName", "title": "First Name" },
+      { "key": "lastName", "dataIndex": "lastName", "title": "Last Name" },
+      { "key": "roles", "dataIndex": "roles", "title": "Roles" },
+      { "key": "isActive", "dataIndex": "isActive", "title": "Active", "note": "render-bool", "align": "center" },
+      { "key": "createdAt", "dataIndex": "createdAt", "title": "Created At", "note": "render-date", "align": "center" }
+    ],
+    "edit": [
+      [
+        {
+          "label": "Username",
+          "placeholder": "Username",
+          "name": "username",
+          "size": 6,
+          "type": "string",
+          "required": true,
+          "max": 50
+        },
+        {
+          "label": "Password",
+          "placeholder": "Password",
+          "name": "password",
+          "size": 6,
+          "type": "password",
+          "required": true,
+          "skipRequiredEdit": true
+        }
+      ],
+      [
+        {
+          "label": "Roles",
+          "placeholder": "Roles",
+          "name": "roles",
+          "size": 10,
+          "type": "relation",
+          "required": true,
+          "target": "admin/roles/relation"
+        },
+        { "label": "Active", "name": "isActive", "size": 2, "type": "boolean" }
+      ]
+    ],
+    "defaultValue": { "isActive": true }
+  }
+}

@@ -1,0 +1,154 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum STATUS {
+  ACTIVE
+  DELETED
+  INACTIVE
+}
+
+model Users {
+  id            String    @id @default(uuid())
+  email         String    @unique() @db.VarChar(100)
+  name          String    @default("") @db.VarChar(256)
+  locale        String?   @default("us")
+  picture       String?   @db.VarChar(1024)
+  emailVerified Boolean?  @default(false) @map("email_verified")
+  iss           String?   @db.VarChar(1024)
+  aud           String?   @db.VarChar(1024)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @map("updated_at")
+  deletedAt     DateTime? @map("deleted_at")
+  sites         Sites[]
+
+  @@map("users")
+}
+
+model Sites {
+  id     String @id @default(uuid())
+  name   String @db.VarChar(256)
+  status STATUS @default(ACTIVE)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  createdBy String? @map("created_by")
+  updatedBy String? @map("updated_by")
+  deletedBy String? @map("deleted_by")
+
+  view  Int? @default(10)
+  time  Int? @default(15)
+  point Int? @default(1)
+  quota Int? @default(0)
+
+  userId String? @map("user_id") @db.VarChar(16)
+  user   Users?  @relation(fields: [userId], references: [id])
+
+  @@index([createdAt])
+  @@index([userId])
+  @@map("sites")
+}
+
+model SitesTracking {
+  id          String    @id @default(uuid())
+  hostname    String?   @db.VarChar(256)
+  userAgent   String?   @map("user_agent")
+  originalUrl String?   @map("original_url") @db.VarChar(2048)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime? @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+  completed   Boolean?  @default(false) @map("completed")
+  realIp      String?   @map("real_ip") @db.VarChar(256)
+  forwardIp   String?   @map("forward_ip") @db.VarChar(256)
+  siteId      String?   @map("site_id")
+  userId      String?   @map("user_id")
+
+  @@index([createdAt])
+  @@map("sites_tracking")
+}
+
+model AdminUsers {
+  id        String    @id @default(uuid())
+  username  String?   @unique() @db.VarChar(50)
+  password  String?   @db.VarChar(100)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  isActive Boolean? @default(true) @map("is_active")
+
+  createdBy String? @map("created_by")
+  updatedBy String? @map("updated_by")
+  deletedBy String? @map("deleted_by")
+
+  usersRoles AdminUserRoleLink[]
+
+  @@map("admin_users")
+}
+
+model AdminRoles {
+  id          String    @id @default(uuid())
+  name        String    @db.VarChar(50)
+  code        String    @unique()
+  permissions Json[]
+  description String?   @db.VarChar(100)
+  createdAt   DateTime? @default(now()) @map("created_at")
+  updatedAt   DateTime? @map("updated_at")
+
+  createdBy String? @map("created_by")
+  updatedBy String? @map("updated_by")
+  deletedBy String? @map("deleted_by")
+
+  usersRoles AdminUserRoleLink[]
+
+  @@index([createdAt])
+  @@index([updatedAt])
+  @@map("admin_roles")
+}
+
+model AdminUserRoleLink {
+  id     String  @id @default(uuid())
+  userId String? @map("user_id")
+  roleId String? @map("role_id")
+
+  adminRole AdminRoles? @relation(fields: [roleId], references: [id], onUpdate: NoAction)
+  adminUser AdminUsers? @relation(fields: [userId], references: [id], onUpdate: NoAction)
+
+  @@unique([userId, roleId], map: "admin_users_roles_links_unique")
+  @@index([roleId], map: "admin_users_roles_links_inv_fk")
+  @@index([userId], map: "admin_users_roles_links_fk")
+  @@map("admin_users_roles_links")
+}
+
+model StaticPages {
+  id        String    @id @default(uuid())
+  path      String    @unique @db.VarChar(100)
+  content   String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+  createdBy String?   @map("created_by")
+  updatedBy String?   @map("updated_by")
+
+  @@index([createdAt])
+  @@map("static_pages")
+}
+
+model Languages {
+  id        String    @id @default(uuid())
+  code      String    @unique @db.VarChar(5)
+  content   Json[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+  createdBy String?   @map("created_by")
+  updatedBy String?   @map("updated_by")
+
+  @@index([createdAt])
+  @@map("languages")
+}
